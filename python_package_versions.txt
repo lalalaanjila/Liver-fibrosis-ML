@@ -1,0 +1,6 @@
+Python	3.12.4 | packaged by Anaconda, Inc. | (main, Jun 18 2024, 15:03:56) [MSC v.1929 64 bit (AMD64)]
+scikit-learn	1.5.1
+pandas	2.2.2
+numpy	1.26.4
+matplotlib	3.8.4
+networkx	3.2.1
