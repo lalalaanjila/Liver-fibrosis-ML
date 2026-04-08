@@ -1,110 +1,159 @@
 # Liver-fibrosis-ML
-# Reproducible Code for Machine Learning Analysis
 
-## Overview
-This repository provides reproducible example scripts for the machine learning workflow used in this study, including data preprocessing, feature selection, hyperparameter tuning, final model training, and internal testing.
+## Reproducible Code for Machine Learning Analysis
 
-Because the original study data are subject to data access restrictions and/or institutional data-use policies, the raw data are not publicly distributed in this repository. A small example input file is provided to illustrate the expected data structure and column naming format.
+### Overview
+This repository provides reproducible example scripts for the machine learning workflow used in this study, including data preprocessing, missing-value handling, feature selection, hyperparameter tuning, final model training, and internal testing.
+
+Because the original study data are subject to data access restrictions and/or institutional data-use policies, the raw analytical dataset is not publicly distributed in this repository. A small synthetic example input file is provided solely to illustrate the expected data structure, variable naming conventions, and coding format.
 
 ---
-## Repository structure
+
+### Repository structure
+
 ```text
-code/
+.
 ├── 01_data_preprocessing_imputation_split.R
 ├── 02_feature_selection_boruta.R
 ├── 02_feature_selection_lasso_and_intersection.py
 ├── 03_model_tuning_tidymodels.R
-└── 04_model_training_and_testing.R
+├── 04_model_training_and_testing.R
+├── raw_dataset_example.csv
+└── README.md
+```
 
-data_example/
-└── raw_dataset_example.csv
+---
 
-Script descriptions
-01_data_preprocessing_imputation_split.R
+### Script descriptions
+
+#### `01_data_preprocessing_imputation_split.R`
 This script:
-reads the raw dataset with missing values
-splits the dataset into training, internal validation, and internal testing cohorts
-performs missing-value handling after cohort splitting
-exports processed datasets and missing-data summaries
+- reads the raw dataset with missing values;
+- splits the dataset into training, internal validation, and internal testing cohorts;
+- performs missing-value handling after cohort splitting;
+- exports processed datasets and missing-data summaries;
+- records session or package version information for reproducibility.
 
-02_feature_selection_boruta.R
+#### `02_feature_selection_boruta.R`
 This script:
-performs Boruta-based feature selection using the training cohort only
-exports variable importance statistics and confirmed features
+- performs Boruta-based feature selection using the training cohort only;
+- exports variable importance statistics and confirmed features;
+- records the random seed and package/session information used in this step.
 
-02_feature_selection_lasso_and_intersection.py
+#### `02_feature_selection_lasso_and_intersection.py`
 This script:
-performs LASSO-based feature selection using the training cohort
-generates LASSO tuning plots
-visualizes the overlap between Boruta-selected and LASSO-selected features
+- performs LASSO-based feature selection using the training cohort only;
+- generates LASSO tuning plots;
+- visualizes the overlap between Boruta-selected and LASSO-selected features;
+- records the Python package environment used in this step.
 
-03_model_tuning_tidymodels.R
+#### `03_model_tuning_tidymodels.R`
 This script:
-performs hyperparameter tuning for multiple machine learning models using the training cohort
-exports tuning metrics and the best parameter combinations
+- performs hyperparameter tuning for multiple machine learning models using the training cohort only;
+- exports tuning metrics and selected parameter combinations;
+- uses fixed random seeds to improve reproducibility.
 
-04_model_training_and_testing.R
+#### `04_model_training_and_testing.R`
 This script:
-trains the final models using the imputed training cohort
-evaluates model performance using cross-validation in the training cohort
-generates predictions for the internal testing cohort
-exports ROC curve data and summary performance metrics
-Expected input variables
+- trains the final models using the processed training cohort;
+- evaluates model performance using cross-validation in the training cohort;
+- generates predictions for the held-out internal testing cohort;
+- exports ROC-related outputs and summary performance metrics.
 
+---
+
+### Expected input variables
 The example workflow assumes that the dataset contains the following variables:
-group
-Age
-Gender
-Educational
-Height
-Weight
-BMI
-Waist_circumference
-Hip_circumference
-Hypertension
-DM
 
-Additional variables may be included in the original analytical dataset depending on the feature-selection step.
+- `group`
+- `Age`
+- `Gender`
+- `Educational`
+- `Height`
+- `Weight`
+- `BMI`
+- `Waist_circumference`
+- `Hip_circumference`
+- `Hypertension`
+- `DM`
 
-Detailed variable mapping and descriptions are provided in the manuscript supplementary materials.
+Additional variables may be included in the original analytical dataset depending on the feature-selection and model-development steps.
 
-Running order
+Detailed variable mapping and variable definitions are provided in the Supplementary Materials:
+- **Table S1**: Variable mapping and description for UK Biobank data
+- **Table S2**: Description of the study variables
 
+---
+
+### Running order
 Please run the scripts in the following order:
-01_data_preprocessing_imputation_split.R
-02_feature_selection_boruta.R
-02_feature_selection_lasso_and_intersection.py
-03_model_tuning_tidymodels.R
-04_model_training_and_testing.R
-Example data
 
-The file data_example/raw_dataset_example.csv is a synthetic example input file created only to illustrate the expected file structure, variable names, and coding format. It is not part of the original study dataset and should not be used for reproducing the reported results.
+1. `01_data_preprocessing_imputation_split.R`
+2. `02_feature_selection_boruta.R`
+3. `02_feature_selection_lasso_and_intersection.py`
+4. `03_model_tuning_tidymodels.R`
+5. `04_model_training_and_testing.R`
 
-Software environment
-The scripts generate session or package version files during preprocessing, feature selection, tuning, and final modeling to facilitate reproducibility.
+Each step depends on outputs generated by the preceding step. For exact reproduction of the workflow, the scripts should be executed sequentially without changing the intermediate file names unless corresponding path settings are updated locally.
 
-The main software environment includes:
-R
-Python
-tidymodels
-ranger
-xgboost
-bonsai / lightgbm
-naivebayes
-kknn
-kernlab
-Boruta
-missForest
-scikit-learn
-pandas
-numpy
-matplotlib
-networkx
+---
 
-Please refer to the exported session information files for exact package versions.
+### Example data
+The file `raw_dataset_example.csv` is a synthetic example input file created only to illustrate the expected file structure, variable names, and coding format. It is not part of the original study dataset and must not be used to reproduce the reported study results.
 
-Data availability
-The original data used in this study are not publicly distributed in this repository because they are subject to data access restrictions and/or institutional policies. Researchers who obtain appropriate access to the source datasets may use the scripts in this repository to reproduce the analytical workflow.
+---
 
-Notes
-This repository is intended to provide a transparent and reproducible analytical framework. File paths, variable names, and input filenames may need minor adaptation according to local data organization.
+### Reproducibility notes
+
+#### Random seeds
+Random seeds are explicitly fixed within the public scripts for the major analytical steps, including cohort splitting, feature selection, hyperparameter tuning, and final model fitting where applicable. Users should retain these settings to maximize reproducibility.
+
+#### Software environment
+The analytical workflow uses both R and Python.
+
+Main R packages include:
+- `tidymodels`
+- `ranger`
+- `xgboost`
+- `bonsai`
+- `lightgbm`
+- `naivebayes`
+- `kknn`
+- `kernlab`
+- `Boruta`
+- `missForest`
+
+Main Python packages include:
+- `scikit-learn`
+- `pandas`
+- `numpy`
+- `matplotlib`
+- `networkx`
+
+Exact package-version information is recorded in the exported session or environment files generated during the workflow. If available, users should also consult the repository lockfile or environment specification file for dependency restoration.
+
+#### Hyperparameter tuning
+The final selected hyperparameters and the hyperparameter search strategies are documented in the Supplementary Materials:
+- **Table S6**: Final hyperparameters adopted in the ten machine learning models
+- **Table S7**: Hyperparameter optimisation strategies for each machine learning model
+
+---
+
+### Data availability
+The original data used in this study are not publicly distributed in this repository because they are subject to data access restrictions and/or institutional data-use policies. Researchers who obtain appropriate access to the source datasets may use the scripts in this repository to reproduce the analytical workflow.
+
+---
+
+### Code availability
+The code used for data preprocessing, feature selection, hyperparameter tuning, model training, and model evaluation is publicly available in this repository.
+
+---
+
+### Important notes
+This repository is intended to provide a transparent and reproducible analytical framework. Minor adaptation of file paths, working directories, or local input/output settings may be required depending on the user’s computing environment. Such changes should not alter the analytical logic of the workflow.
+
+To improve exact reproducibility, users are encouraged to preserve:
+- the original script execution order;
+- the predefined random seeds in the scripts;
+- the reported package versions and software environment;
+- the variable coding scheme described in the Supplementary Materials.
