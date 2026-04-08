@@ -1,0 +1,7 @@
+group,Age,Gender,Educational,Height,Weight,BMI,Waist_circumference,Hip_circumference,Hypertension,DM
+1,58,Male,College,170,75,25.95,92,100,Yes,No
+0,46,Female,HighSchool,160,60,23.44,80,95,No,No
+1,63,Male,Graduate,168,78,27.64,98,102,Yes,Yes
+0,52,Female,College,162,55,20.96,76,90,No,No
+1,61,Male,HighSchool,172,82,27.72,101,103,Yes,Yes
+0,49,Female,Graduate,158,54,21.63,74,89,No,No
